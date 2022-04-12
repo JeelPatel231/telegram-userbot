@@ -2,10 +2,19 @@ from pyrogram import Client
 from pyrogram import filters
 from modules import *
 import modules
+import os
+import logging
+
+
+logging.basicConfig(level=logging.INFO)
 
 # pyrogram client
-app = Client("my_account")
-
+session_string = os.environ["SESSION_STRING"]
+app = Client(
+    session_string,
+    api_id=os.environ["API_ID"],
+    api_hash=os.environ["API_HASH"]
+)
 
 # this function map is the workaround/fix for eval is evil, but still uses eval to be made, pretty ironic :P
 # map/dict of all functions/modules available in ./modules folder
