@@ -15,7 +15,7 @@ for i in modules.__all__:
 
 # message filter to check if the message is from user and has "." at the start
 async def message_filter(_,__,message):
-    return message is not None and message.from_user.is_self and message.text.startswith('.')
+    return message.text is not None and message.from_user.is_self and message.text.startswith('.')
 
 
 # on message listener and function execute ONLY if its in function_map
