@@ -1,0 +1,5 @@
+*.ini
+*.session
+__pycache__
+
+venv
