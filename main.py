@@ -4,8 +4,9 @@ from modules import *
 import modules
 import os
 import logging
+from dotenv import load_dotenv
 
-
+load_dotenv()
 logging.basicConfig(level=logging.INFO)
 
 # pyrogram client
@@ -24,7 +25,8 @@ for i in modules.__all__:
 
 # message filter to check if the message is from user and has "." at the start
 async def message_filter(_,__,message):
-    return message.text is not None and message.from_user.is_self and message.text.startswith('.')
+    if message.text is not None and message.from_user is not None:
+        return message.from_user.is_self and message.text.startswith('.')
 
 
 # on message listener and function execute ONLY if its in function_map
