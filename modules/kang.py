@@ -25,24 +25,23 @@ def choose_pack(list_of_packs:list ,anim:bool = False):
     return [item for item in temp_list if "anim" in item]
 
 
-async def kang(client,message):
+def kang(client,message):
     try:
         sticker_obj = message.reply_to_message.sticker
         if sticker_obj.is_animated or sticker_obj.is_video:
-            await message.reply_text("video/animated stickers not supported **YET**",quote=True)
+            message.reply_text("video/animated stickers not supported **YET**",quote=True)
             return
     except:
-        await message.reply_text("reply to a sticker, dumbass",quote=True)
+        message.reply_text("reply to a sticker, dumbass",quote=True)
         return
     
     split = message.text.split(" ",1)
     emojis = "" if len(split) == 1 else split[1]
     number_next = 1
     pack_name = None
-    my = await client.get_me()
-    pack_name_suffix = f"a{my.id}_by_pronto_"
+    pack_name_suffix = f"a{client.get_me().id}_by_pronto_"
 
-    await client.send_message("@stickers","/addsticker")
+    client.send_message("@stickers","/addsticker")
 
     def react_on_message(_, bot_message):
         nonlocal number_next

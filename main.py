@@ -1,3 +1,4 @@
+from threading import Thread
 from pyrogram import Client
 from pyrogram import filters
 from modules import *
@@ -34,7 +35,7 @@ async def message_filter(_,__,message):
 async def my_function(client, message):
     method = message.text.split(" ",1)[0]
     if method in function_map.keys():
-        await function_map[method](client,message)
+        Thread(target=function_map[method],args=(client,message)).start()
 
 # :P
 app.run()
