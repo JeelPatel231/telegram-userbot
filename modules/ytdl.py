@@ -21,29 +21,29 @@ def download(url,audio:bool = False):
         filename = ydl.prepare_filename(info)
         return filename
 
-def ytdl(client,message):
+def ytdl(_,message):
     if message.reply_to_message is not None:
         link = message.reply_to_message.text
     else:
         link = message.text.split(" ")[-1]
         if "http" not in link:
-            message.reply_text("Unable to find link, perhaps add or reply to one?")
+            message.reply_text("Unable to find link, perhaps add or reply to one?",quote=True)
             return
     audio = ("-a" in message.text)
 
-    message.reply_text(f"Starting Download.")
+    message.reply_text(f"Starting Download.",quote=True)
     try:
         filename = download(link,audio)
     except:
-        message.reply_text("Error Occured, check logs")
+        message.reply_text("Error Occured, check logs",quote=True)
         return
-        
-    message.reply_text(f"Downloaded {filename}.\nStarting Upload.")
+
+    message.reply_text(f"Downloaded {filename}.\nStarting Upload.",quote=True)
 
     if audio:
-        client.send_audio(message.chat.id,filename.rsplit('.')[0]+".mp3")
+        message.reply_audio(filename.rsplit('.')[0]+".mp3",quote=True)
     else:
-        client.send_video(message.chat.id,filename)
+        message.reply_video(filename,quote=True)
     
     for file in os.listdir("temp"):
         os.remove(f"temp/{file}")
