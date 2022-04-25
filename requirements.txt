@@ -4,3 +4,4 @@ PySocks==1.7.1
 tgcrypto==1.2.3
 python-dotenv==0.20.0
 youtube-dl==2021.12.17
+requests==2.27.1
