@@ -22,18 +22,22 @@ def download(url,audio:bool = False):
         return filename
 
 def ytdl(client,message):
-    try:
+    if message.reply_to_message is not None:
+        link = message.reply_to_message.text
+    else:
         link = message.text.split(" ")[-1]
-    except IndexError:
-        if message.reply_to_message is not None:
-            link = message.reply_to_message.text
-        else:
+        if "http" not in link:
             message.reply_text("Unable to find link, perhaps add or reply to one?")
             return
     audio = ("-a" in message.text)
 
     message.reply_text(f"Starting Download.")
-    filename = download(link,audio)
+    try:
+        filename = download(link,audio)
+    except:
+        message.reply_text("Error Occured, check logs")
+        return
+        
     message.reply_text(f"Downloaded {filename}.\nStarting Upload.")
 
     if audio:
