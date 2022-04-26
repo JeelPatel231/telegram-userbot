@@ -10,3 +10,6 @@ youtube-dl==2021.12.17
 
 # reddit downloader
 requests==2.27.1
+
+# spotify
+spotipy==2.19.0
