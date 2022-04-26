@@ -11,3 +11,5 @@ __all__ = [ basename(f)[:-3] for f in modules if isfile(f) and not f.endswith('_
 # add "_" at the start of any module to ignore loading it as module
 # it will execute seperately as a runnable
 loadable_mods = [ mods for mods in __all__ if not basename(mods).startswith('_') ]
+
+runnable_scripts = [ scripts for scripts in __all__ if basename(scripts).startswith('_') ]
