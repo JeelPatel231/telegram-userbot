@@ -1,7 +1,12 @@
+# bot core libs
 pyaes==1.6.1
 Pyrogram==1.4.7
 PySocks==1.7.1
 tgcrypto==1.2.3
 python-dotenv==0.20.0
+
+# youtube downloader
 youtube-dl==2021.12.17
+
+# reddit downloader
 requests==2.27.1
