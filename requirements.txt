@@ -14,3 +14,6 @@ requests==2.27.1
 # spotify
 spotipy==2.19.0
 pillow==9.1.0
+
+# spotify publish // db connection
+psycopg[binary]==3.0.11
