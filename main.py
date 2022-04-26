@@ -1,5 +1,5 @@
 from threading import Thread
-from pyrogram import Client
+from pyrogram import Client, idle
 from pyrogram import filters
 from modules import *
 import modules
@@ -19,6 +19,9 @@ app = Client(
 )
 
 def main():
+    #start the client first
+    app.start()
+
     # this function map is the workaround/fix for eval is evil, but still uses eval to be made, pretty ironic :P
     # map/dict of all functions/modules available in ./modules folder
     function_map = {}
@@ -38,8 +41,12 @@ def main():
         if method in function_map.keys():
             Thread(target=function_map[method],args=(client,message)).start()
 
-    # :P
-    app.run()
+    # start all the runnable threads
+    for i in modules.runnable_scripts:
+        Thread(target=eval(f"{i}.runnable"),args=(app,)).start()
+
+    # keep running
+    idle()
 
 if __name__ == "__main__":
     main()
