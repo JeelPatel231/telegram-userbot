@@ -11,14 +11,19 @@ UPDATE_QUERY = "UPDATE spotifypublishdata SET last_played = CURRENT_TIMESTAMP wh
 SELECT_QUERY = "select extract(epoch from last_played) from spotifypublishdata WHERE track_id=%s"
 CREATE_TABLE = "CREATE TABLE IF NOT EXISTS spotifyPublishData ( track_id VARCHAR(50) PRIMARY KEY, last_played TIMESTAMP )"
 
-conn = psycopg.connect(os.environ["POSTGRES_URL"])
-chat_id = os.getenv("SPOTIFY_PUBLISH_CHAT_ID","me")
-cur = conn.cursor()
-
-cur.execute(CREATE_TABLE)
-conn.commit()
-
 def runnable(client):
+    try:
+        conn = psycopg.connect(os.environ["POSTGRES_URL"])
+    except:
+        print("Exception Occurred in spotify Publisher, script will not be executed further")
+        client.send_message("me","Exception Occurred in spotify Publisher, script will not be executed further")
+        return
+    chat_id = os.getenv("SPOTIFY_PUBLISH_CHAT_ID","me")
+    cur = conn.cursor()
+
+    cur.execute(CREATE_TABLE)
+    conn.commit()
+
     while True:
         print("POLLED")
         data = get_details()
