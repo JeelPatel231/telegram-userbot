@@ -9,3 +9,5 @@ venv
 temp/
 .vscode/
 *.sql
+
+*cache*
