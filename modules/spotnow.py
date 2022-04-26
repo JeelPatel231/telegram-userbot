@@ -9,14 +9,13 @@ username = "Jeel Patel"
 token = util.prompt_for_user_token(username, 'user-read-currently-playing', redirect_uri="http://localhost:8000/callback")
 spotify = spotipy.Spotify(auth=token)
 
-# https://stackoverflow.com/a/66999827 # caching font in memory 
-bold_url = 'https://github.com/googlefonts/roboto/blob/main/src/hinted/Roboto-Bold.ttf?raw=true'
-regular_url = 'https://github.com/googlefonts/roboto/blob/main/src/hinted/Roboto-Regular.ttf?raw=true'
-font_24 = ImageFont.truetype(urlopen(bold_url), size=25)
-font_20 = ImageFont.truetype(urlopen(regular_url), size=20)
+font_24 = ImageFont.truetype("modules/assets/GoNotoCurrent.ttf", size=25)
+font_20 = ImageFont.truetype("modules/assets/GoNotoCurrent.ttf", size=20)
 
 def get_details() -> tuple:
     current_track = spotify.current_user_playing_track()
+    if current_track == None:
+        return None
     complete_percent = current_track["progress_ms"]/current_track["item"]["duration_ms"]
     current_track = current_track["item"]
     song_name = current_track["name"]
@@ -52,5 +51,8 @@ def make_image(data,username) -> BytesIO:
 
 def spotnow(_,message):
     data = get_details()
+    if data == None:
+        message.reply_text("listening nothing at the moment...",quote=True)
+        return
     file = make_image(data,message.from_user.username)
     message.reply_photo(file,caption=f"[HERE]({data[4]})",quote=True)
