@@ -7,3 +7,5 @@ venv
 !example.env
 
 temp/
+.vscode/
+*.sql
