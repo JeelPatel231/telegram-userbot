@@ -13,7 +13,7 @@ try:
 except KeyError:
     api_hash = str(input("Enter API HASH : "))
 
-app = Client(":memory:",api_id=api_id,api_hash=api_hash)
+app = Client("bruh",api_id=api_id,api_hash=api_hash,in_memory=True)
 
 with app:
     sess_str = app.export_session_string()
