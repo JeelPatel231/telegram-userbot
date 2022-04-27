@@ -28,14 +28,15 @@ def main():
     for i in modules.loadable_mods:
         function_map[f".{str(i)}"] = eval(f"{i}.{i}")
 
-    # message filter to check if the message is from user and has "." at the start
-    async def message_filter(_,__,message):
-        if message.text is not None and message.from_user is not None:
-            return message.from_user.is_self and message.text.startswith('.')
-
+    # message filter to check if the message is from user and has `text` at the start
+    def dynamic_data_filter(data):
+        async def func(flt, _, message):
+            if message.text is not None and message.from_user is not None:
+                return message.from_user.is_self and message.text.startswith(flt.data)
+        return filters.create(func, data=data)
 
     # on message listener and function execute ONLY if its in function_map
-    @app.on_message(filters.create(message_filter))
+    @app.on_message(dynamic_data_filter("."))
     async def my_function(client, message):
         method = message.text.split(" ",1)[0]
         if method in function_map.keys():
