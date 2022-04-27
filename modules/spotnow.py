@@ -4,9 +4,8 @@ from urllib.request import urlopen
 import spotipy
 import spotipy.util as util
 
-username = "Jeel Patel"
 # set SPOTIPY_CLIENT_SECRET & SPOTIPY_CLIENT_ID
-token = util.prompt_for_user_token(username, 'user-read-currently-playing', redirect_uri="http://localhost:8000/callback")
+token = util.prompt_for_user_token(scope='user-read-currently-playing', redirect_uri="http://localhost:8000/callback")
 spotify = spotipy.Spotify(auth=token)
 
 font_24 = ImageFont.truetype("modules/assets/GoNotoCurrent.ttf", size=25)
