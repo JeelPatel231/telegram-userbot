@@ -1,7 +1,6 @@
 from pyrogram.handlers import MessageHandler
 
-class _():pass
-options = _()
+options = lambda: None
 options.CHOOSE_SET = "Choose a sticker set"
 options.SEND_STICKER = "Alright! Now send me the sticker"
 options.SEND_ANIM_STICKER = "Alright! Now send me the animated sticker"
