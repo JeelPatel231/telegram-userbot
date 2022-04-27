@@ -1,8 +1,6 @@
 from threading import Thread
 from pyrogram import Client, idle
 from pyrogram import filters
-from modules import *
-import modules
 import os
 import logging
 from dotenv import load_dotenv
@@ -18,6 +16,8 @@ app = Client(
     api_hash=os.environ["API_HASH"]
 )
 
+blacklisted_chats = os.getenv("BLACKLISTED_CHATS","").split(",")
+
 def main():
     #start the client first
     app.start()
@@ -32,7 +32,7 @@ def main():
     # message filter to check if the message is from user and has `text` at the start
     def dynamic_data_filter(data):
         async def func(flt, _, message):
-            if message.text is not None and message.from_user is not None:
+            if str(message.chat.id) not in blacklisted_chats and message.text is not None and message.from_user is not None:
                 return message.from_user.is_self and message.text.startswith(flt.data)
         return filters.create(func, data=data)
 
@@ -74,4 +74,6 @@ def main():
     idle()
 
 if __name__ == "__main__":
+    from modules import *
+    import modules
     main()
