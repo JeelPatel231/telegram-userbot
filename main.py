@@ -15,7 +15,7 @@ app = Client(
     api_id=os.environ["API_ID"],
     api_hash=os.environ["API_HASH"])
 
-blacklisted_chats = os.getenv("BLACKLISTED_CHATS","").split(",")
+blacklisted_chats = [ k.strip() for k in os.getenv("BLACKLISTED_CHATS","").split(",") ]
 
 def main():
     #start the client first
