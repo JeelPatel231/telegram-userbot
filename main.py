@@ -13,8 +13,7 @@ session_string = os.environ["SESSION_STRING"]
 app = Client(
     session_string,
     api_id=os.environ["API_ID"],
-    api_hash=os.environ["API_HASH"]
-)
+    api_hash=os.environ["API_HASH"])
 
 blacklisted_chats = os.getenv("BLACKLISTED_CHATS","").split(",")
 
@@ -44,8 +43,8 @@ def main():
             if i in function_map:
                 function_map.pop(i)
                 await message.reply_text(f"`disabled module {i}`")
-                return
-            await message.reply_text(f"`module {i} not found...`")
+            else:
+                await message.reply_text(f"`module {i} not loaded...`")
 
     @app.on_message(dynamic_data_filter(".enable"))
     async def _(_,message):
@@ -55,8 +54,8 @@ def main():
             if i in backup_function_map:
                 function_map.update({i : backup_function_map[i]})
                 await message.reply_text(f"`loaded module {i}!`")
-                return
-            await message.reply_text(f"`module {i} not found to load...`")
+            else:
+                await message.reply_text(f"`module {i} not found to load...`")
 
     # on message listener and function execute ONLY if its in function_map
     @app.on_message(dynamic_data_filter("."))
@@ -64,7 +63,6 @@ def main():
         method = message.text.split(" ",1)[0]
         if method in function_map.keys():
             Thread(target=function_map[method],args=(client,message)).start()
-
 
     # start all the runnable threads
     for i in modules.runnable_scripts:
