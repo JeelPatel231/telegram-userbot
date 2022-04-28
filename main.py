@@ -73,7 +73,9 @@ def main():
 
     # start all the runnable threads
     for i in modules.runnable_scripts:
-        Thread(target=eval(f"{i}.runnable"),args=(app,)).start()
+        t = Thread(target=eval(f"{i}.runnable"),args=(app,))
+        t.daemon = True
+        t.start()
 
     # keep running
     idle()
