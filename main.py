@@ -57,6 +57,13 @@ def main():
             else:
                 await message.reply_text(f"`module {i} not found to load...`")
 
+    # unloads/loads all the modules, runnable scripts will still be running
+    @app.on_message(dynamic_data_filter(".stop"))
+    async def _(_,message): function_map.clear() ; await message.reply_text(f"`paused all modules!`")
+    
+    @app.on_message(dynamic_data_filter(".start"))
+    async def _(_,message): function_map.update(backup_function_map) ; await message.reply_text(f"`loaded all modules!`")
+
     # on message listener and function execute ONLY if its in function_map
     @app.on_message(dynamic_data_filter("."))
     async def _(client, message):
