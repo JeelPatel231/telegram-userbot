@@ -86,3 +86,5 @@ def kang(client,message):
 
     kang_handler = client.add_handler(MessageHandler(react_on_message))
     # ^ add handler to react to bot sent messages
+
+help = "`Kang stickers to your own packs, media/animated not supported yet`"

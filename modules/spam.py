@@ -17,3 +17,5 @@ def spam(client,message):
         return
     for _ in range(count):
         client.send_message(chat_id,text)
+
+help = "`Spam messages consecutively for a given count`"

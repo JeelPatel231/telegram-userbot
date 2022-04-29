@@ -8,3 +8,5 @@ def speedtest(_,mess):
     res = f"`Results:\nDL = {dl:.2f} mbps\n`"
     if ul is not None: res += f"`UP = {ul:.2f} mbps`" 
     mess.edit(res)
+
+help = "`starts a speedtest`"

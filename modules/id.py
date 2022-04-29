@@ -5,3 +5,5 @@ def id(_,message):
         f"Replied User ID = `{message.reply_to_message.from_user.id if message.reply_to_message is not None else None}`\n",
         
         quote=True)
+
+help = "`Shows ID of chat,message and user`"

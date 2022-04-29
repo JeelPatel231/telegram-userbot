@@ -47,3 +47,13 @@ def ytdl(_,message):
     
     for file in os.listdir("temp"):
         os.remove(f"temp/{file}")
+
+
+help = """`\
+Download Youtube videos
+add -a to get audio
+
+USAGE:
+.ytdl [link | reply to link]
+.ytdl -a [link | reply to link] (for audio only)
+`"""

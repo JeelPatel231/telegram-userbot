@@ -60,3 +60,5 @@ def spotnow(_,message):
         return
     file = make_image(data,message.from_user.first_name)
     message.reply_photo(file,caption=f"[Track link]({data[4]})",quote=True)
+
+help = "`Shows currently playing song on spotify`"

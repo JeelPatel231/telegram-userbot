@@ -34,3 +34,5 @@ def redl(_,message):
             os.remove(abspath)
             return
         message.reply_text("Some error occured, check logs")
+
+help = "`Download Reddit media (photos/videos)`"

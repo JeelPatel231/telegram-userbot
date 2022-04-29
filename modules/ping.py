@@ -6,3 +6,5 @@ def ping(_,mess):
     end = datetime.now()
     duration = (end - start).microseconds / 1000
     mess.edit(f"`Pong!\n{duration}ms`")
+
+help = "`pingtest to nearest TG DC`"
