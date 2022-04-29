@@ -61,6 +61,13 @@ def main():
     @app.on_message(dynamic_data_filter(".start"))
     async def _(_,message): function_map.update(backup_function_map) ; await message.reply_text(f"`loaded all modules!`")
 
+    # help function
+    @app.on_message(dynamic_data_filter(".help"))
+    async def _(_, message):
+        method = message.text.split(" ",1)[1]
+        if f".{method}" in backup_function_map.keys(): await message.reply_text(eval(f"{method}.help"),quote=True)
+        else : await message.reply_text(f"module {method} not found")
+
     # on message listener and function execute ONLY if its in function_map
     @app.on_message(dynamic_data_filter("."))
     async def _(client, message):
