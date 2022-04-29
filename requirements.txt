@@ -16,3 +16,6 @@ pillow==9.1.0
 
 # spotify publish // db connection
 psycopg[binary]==3.0.11
+
+# speedtest
+speedtest-cli==2.1.3
