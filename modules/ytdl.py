@@ -34,8 +34,8 @@ def ytdl(_,message):
     message.reply_text(f"Starting Download.",quote=True)
     try:
         filename = download(link,audio)
-    except:
-        message.reply_text("Error Occured, check logs",quote=True)
+    except Exception as e:
+        message.reply_text("Error Occured: \n"+str(e),quote=True)
         return
 
     message.reply_text(f"Downloaded {filename}.\nStarting Upload.",quote=True)

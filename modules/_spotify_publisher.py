@@ -15,9 +15,9 @@ POLL_INTERVAL = 30
 def runnable(client):
     try:
         conn = psycopg.connect(os.environ["POSTGRES_URL"])
-    except:
-        print("Exception Occurred in spotify Publisher, script will not be executed further")
-        client.send_message("me","Exception Occurred in spotify Publisher, script will not be executed further")
+    except Exception as e:
+        print("SPOTIFY PUBLISHER MODULE: \n"+str(e))
+        client.send_message("me","**SPOTIFY PUBLISHER MODULE: **\n"+str(e))
         return
     chat_id = os.getenv("SPOTIFY_PUBLISH_CHAT_ID","me")
     cur = conn.cursor()
