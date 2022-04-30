@@ -8,7 +8,8 @@ logging.basicConfig(level=logging.INFO)
 # pyrogram client
 session_string = os.environ["SESSION_STRING"]
 app = Client(
-    session_string,
+    name=None,
+    session_string=session_string,
     api_id=os.environ["API_ID"],
     api_hash=os.environ["API_HASH"])
 

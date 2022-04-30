@@ -4,7 +4,7 @@ api_id = int(input("Enter API ID : "))
 
 api_hash = str(input("Enter API HASH : "))
 
-app = Client(":memory:",api_id=api_id,api_hash=api_hash)
+app = Client(name=None,in_memory=True,api_id=api_id,api_hash=api_hash)
 
 with app:
     sess_str = app.export_session_string()
