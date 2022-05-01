@@ -4,6 +4,7 @@ from decimal import Decimal
 import os
 from .spotnow import get_details
 from .spotnow import make_image
+from main import config
 
 OFFSET = 1650705548 # 3 day span in epoch
 INSERT_QUERY = "INSERT INTO spotifypublishdata (track_id,last_played) VALUES (%s,CURRENT_TIMESTAMP)"
@@ -14,7 +15,7 @@ POLL_INTERVAL = 30
 
 def runnable(client):
     try:
-        conn = psycopg.connect(os.environ["POSTGRES_URL"])
+        conn = psycopg.connect(config["POSTGRES_URL"])
     except Exception as e:
         print("SPOTIFY PUBLISHER MODULE: \n"+str(e))
         client.send_message("me","**SPOTIFY PUBLISHER MODULE: **\n"+str(e))

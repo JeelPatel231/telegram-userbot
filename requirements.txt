@@ -3,6 +3,7 @@ pyaes==1.6.1
 Pyrogram==2.0.0
 PySocks==1.7.1
 tgcrypto==1.2.3
+python-dotenv==0.20.0
 
 # youtube downloader
 youtube-dl==2021.12.17

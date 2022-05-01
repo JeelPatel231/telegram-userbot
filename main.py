@@ -3,17 +3,24 @@ from pyrogram import Client, idle
 from pyrogram import filters
 import os
 import logging
+from dotenv import dotenv_values
+
+config = {
+    **dotenv_values(),  # load shared development variables
+    **os.environ,  # override loaded values with environment variables
+}
+
 logging.basicConfig(level=logging.INFO)
 
 # pyrogram client
-session_string = os.environ["SESSION_STRING"]
+session_string = config["SESSION_STRING"]
 app = Client(
     name=None,
     session_string=session_string,
-    api_id=os.environ["API_ID"],
-    api_hash=os.environ["API_HASH"])
+    api_id=config["API_ID"],
+    api_hash=config["API_HASH"])
 
-blacklisted_chats = [ k.strip() for k in os.getenv("BLACKLISTED_CHATS","").split(",") ]
+blacklisted_chats = [ k.strip() for k in config.get("BLACKLISTED_CHATS","").split(",") ]
 
 def main():
     #start the client first

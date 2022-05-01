@@ -1,3 +1,4 @@
+from main import config
 from io import BytesIO
 from PIL import Image, ImageFont, ImageDraw, ImageFilter, ImageEnhance
 from urllib.request import urlopen
@@ -5,7 +6,7 @@ import spotipy
 import spotipy.util as util
 
 # set SPOTIPY_CLIENT_SECRET & SPOTIPY_CLIENT_ID
-token = util.prompt_for_user_token(scope='user-read-currently-playing', redirect_uri="http://localhost:8000/callback")
+token = util.prompt_for_user_token(None,'user-read-currently-playing',config["SPOTIPY_CLIENT_ID"],config["SPOTIPY_CLIENT_SECRET"],"http://localhost:8000/callback")
 spotify = spotipy.Spotify(auth=token)
 
 font_24 = ImageFont.truetype("modules/assets/GoNotoCurrent.ttf", size=25)
