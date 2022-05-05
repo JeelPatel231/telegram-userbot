@@ -42,7 +42,7 @@ def main():
 
     @app.on_message(dynamic_data_filter(".disable"))
     async def _(_,message):
-        args = message.text.split(" ")
+        args = message.text.split()
         for i in args[1:]:
             i = f".{i}"
             if i in function_map:
@@ -53,7 +53,7 @@ def main():
 
     @app.on_message(dynamic_data_filter(".enable"))
     async def _(_,message):
-        args = message.text.split(" ")
+        args = message.text.split()
         for i in args[1:]:
             i = f".{i}"
             if i in backup_function_map:
@@ -72,14 +72,14 @@ def main():
     # help function
     @app.on_message(dynamic_data_filter(".help"))
     async def _(_, message):
-        method = message.text.split(" ",1)[1]
+        method = message.text.split(None,1)[1]
         if f".{method}" in backup_function_map.keys(): await message.reply_text(eval(f"{method}.help"),quote=True)
         else : await message.reply_text(f"module {method} not found")
 
     # on message listener and function execute ONLY if its in function_map
     @app.on_message(dynamic_data_filter("."))
     async def _(client, message):
-        method = message.text.split(" ",1)[0]
+        method = message.text.split(None,1)[0]
         if method in function_map.keys():
             Thread(target=function_map[method],args=(client,message)).start()
 
