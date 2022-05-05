@@ -20,6 +20,7 @@ app = Client(
     api_id=config["API_ID"],
     api_hash=config["API_HASH"])
 
+
 blacklisted_chats = [ k.strip() for k in config.get("BLACKLISTED_CHATS","").split(",") ]
 
 def main():
@@ -91,6 +92,18 @@ def main():
 
     # keep running
     idle()
+
+def discard_vars():
+    # destroy keys after client is made
+    del config["API_HASH"]
+    del config["API_ID"]
+    del config["SESSION_STRING"]
+
+    os.environ.pop('API_ID', None)
+    os.environ.pop('API_HASH', None)
+    os.environ.pop('SESSION_STRING', None)
+    
+discard_vars()
 
 if __name__ == "__main__":
     from modules import *
