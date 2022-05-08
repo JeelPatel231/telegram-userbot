@@ -1,5 +1,8 @@
 from pyrogram.handlers import MessageHandler
+from pyffmpeg import FFmpeg
 import os
+
+ffm = FFmpeg()
 
 options = lambda: None
 options.CHOOSE_SET = "Choose a sticker"
@@ -41,10 +44,8 @@ def choose_pack(list_of_packs:list ,anim:bool = False,video:bool = False):
 def kang(client,message):
     file_path = client.download_media(message.reply_to_message)
     og_ext = file_path.rsplit(".",1)[1]
-    print(og_ext)
     try:
         final_ext = conversion_map[og_ext]
-        print(final_ext)
     except KeyError:
         message.reply_text("`unsupported sexuality, most likely...`")
         return
@@ -52,12 +53,11 @@ def kang(client,message):
     is_animated = final_ext == "tgz" or og_ext == "tgz"
     is_video = final_ext == "webm" or og_ext == "webm"
     if final_ext is not None:
-        print("ffmpeg triggered")
         params = "-vf scale=w=512:h=512:force_original_aspect_ratio=decrease"
         if final_ext == "webm" : params += " -ss 00:00:00 -to 00:00:03"
-        os.system(f"ffmpeg -y -i '{file_path}' {params} downloads/output.{final_ext}")
+        ffm.options(f"-i {os.path.relpath(file_path)} {params} downloads/output.{final_ext}")
         os.remove(file_path)
-        file_path = f"{file_path.rsplit('/',1)[0]}/output.{final_ext}"
+        file_path = os.path.abspath(f'downloads/output.{final_ext}')
 
     split = message.text.split(" ",1)
     emojis = "🤔" if len(split) == 1 else split[1]
