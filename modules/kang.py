@@ -1,5 +1,6 @@
 from pyrogram.handlers import MessageHandler
 from pyffmpeg import FFmpeg
+from time import sleep
 import os
 
 ffm = FFmpeg()
@@ -26,6 +27,9 @@ conversion_map = {
     "mp4" : "webm"
 }
 
+kang_queue = []
+running = False
+
 def getFirst3Spaces(str):
     spc = 3
     lst = str.split(None,spc)[:spc]
@@ -42,12 +46,25 @@ def choose_pack(list_of_packs:list ,anim:bool = False,video:bool = False):
         return [item for item in rep_list if "video" not in item and "anim" not in item]
 
 def kang(client,message):
-    file_path = client.download_media(message.reply_to_message)
-    og_ext = file_path.rsplit(".",1)[1]
+    global kang_queue, running
+    kang_queue.append(message)
+    if not running: start_kanging(client)
+
+def start_kanging(client):
+    global kang_queue,running
+    running = True
+    while len(kang_queue) > 0:
+        kang_sticker(client, kang_queue.pop(0))
+    running = False
+
+def kang_sticker(client,message):
+    finished = False
     try:
+        file_path = client.download_media(message.reply_to_message)
+        og_ext = file_path.rsplit(".",1)[1]
         final_ext = conversion_map[og_ext]
-    except KeyError:
-        message.reply_text("`unsupported sexuality, most likely...`")
+    except Exception as e:
+        message.reply_text(f"`{repr(e)}`")
         return
 
     is_animated = final_ext == "tgz" or og_ext == "tgz"
@@ -73,6 +90,7 @@ def kang(client,message):
         nonlocal kang_handler
         nonlocal is_animated
         nonlocal is_video
+        nonlocal finished
 
         if bot_message.from_user.username == "Stickers":
             match getFirst3Spaces(bot_message.text.split(".")[0]):
@@ -118,12 +136,16 @@ def kang(client,message):
                     message.reply_text(f"kanged [HERE](https://t.me/addstickers/{pack_name})",quote=True)
                     os.remove(file_path)
                     client.remove_handler(*kang_handler) # remove handler after job is done
+                    finished = True
                 case options.SET_PUBLISHED:
                     message.reply_text(f"kanged [HERE](https://t.me/addstickers/{pack_name})",quote=True)
                     os.remove(file_path)
                     client.remove_handler(*kang_handler) # remove handler after job is done
+                    finished = True
 
     kang_handler = client.add_handler(MessageHandler(react_on_message))
     # ^ add handler to react to bot sent messages
+    while not finished: # exit function only when kang procedure is finished
+        sleep(0.5)
 
 help = "`Kang stickers to your own packs, media/animated not supported yet`"
