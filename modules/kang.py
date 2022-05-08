@@ -148,4 +148,9 @@ def kang_sticker(client,message):
     while not finished: # exit function only when kang procedure is finished
         sleep(0.5)
 
-help = "`Kang stickers to your own packs, media/animated not supported yet`"
+help = """`\
+Kang stickers to your own packs
+
+USAGE:
+.kang [ reply to image | sticker | gif | video ]
+`"""
