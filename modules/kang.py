@@ -61,7 +61,7 @@ def kang_sticker(client,message):
     finished = False
     try:
         file_path = client.download_media(message.reply_to_message)
-        og_ext = file_path.rsplit(".",1)[1]
+        og_ext = file_path.rsplit(".",1)[1].lower()
         final_ext = conversion_map[og_ext]
     except Exception as e:
         message.reply_text(f"`{repr(e)}`")
