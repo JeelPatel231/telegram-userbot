@@ -93,18 +93,6 @@ def main():
     # keep running
     idle()
 
-def discard_vars():
-    # destroy keys after client is made
-    del config["API_HASH"]
-    del config["API_ID"]
-    del config["SESSION_STRING"]
-
-    os.environ.pop('API_ID', None)
-    os.environ.pop('API_HASH', None)
-    os.environ.pop('SESSION_STRING', None)
-    
-discard_vars()
-
 if __name__ == "__main__":
     from modules import *
     import modules
