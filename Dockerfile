@@ -4,6 +4,8 @@ FROM python:alpine AS base
 RUN mkdir /workdir
 WORKDIR /workdir
 
+RUN apk add ffmpeg
+
 COPY requirements.txt .
 RUN pip3 install -r requirements.txt
 CMD [ "/bin/sh" ]

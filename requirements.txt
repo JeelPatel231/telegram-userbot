@@ -20,6 +20,3 @@ psycopg[binary]==3.0.11
 
 # speedtest
 speedtest-cli==2.1.3
-
-# ffmpeg for kangs
-pyffmpeg==2.3
