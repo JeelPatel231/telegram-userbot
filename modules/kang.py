@@ -1,3 +1,4 @@
+import subprocess
 from pyrogram.handlers import MessageHandler
 from time import sleep
 import os
@@ -69,7 +70,7 @@ def kang_sticker(client,message):
     if final_ext is not None:
         params = "-vf scale=w=512:h=512:force_original_aspect_ratio=decrease"
         if final_ext == "webm" : params += " -ss 00:00:00 -to 00:00:03 -c:v libvpx-vp9 -an"
-        os.system(f"ffmpeg -y -i '{file_path}' {params} downloads/output.{final_ext}")
+        subprocess.run(['ffmpeg','-y','-i',file_path, *params.split(), f'downloads/output.{final_ext}'])
         os.remove(file_path)
         file_path = os.path.abspath(f'downloads/output.{final_ext}')
 
