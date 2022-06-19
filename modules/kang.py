@@ -16,6 +16,18 @@ options.SET_ICON = "You can set"
 options.PROVIDE_NAME = "Please provide a"
 options.SET_PUBLISHED = "Kaboom! I've just"
 
+# Errors
+Er = lambda:None
+Er.E1 = "Video duration is"
+Er.E2 = "File is too"
+Er.E3 = "File type is"
+# very unlikely but sure, why not handle it
+Er.E4 = "Video dimensions are"
+Er.E5 = "Sorry, the image"
+Er.E6 = "Invalid set selected."
+Er.E7 = "Invalid file type."
+Er.E8 = "Sorry, this short" # name is already taken
+
 conversion_map = {
     "tgz" : None,
     "webp" : None,
@@ -91,7 +103,7 @@ def kang_sticker(client,message):
         nonlocal finished
 
         if bot_message.from_user.username == "Stickers":
-            match getFirst3Spaces(bot_message.text.split(".")[0]):
+            match getFirst3Spaces(bot_message.text):
                 case options.CHOOSE_SET:
                     pack_name = choose_pack(bot_message.reply_markup.keyboard,is_animated,is_video)
                     if pack_name == []:
@@ -138,6 +150,10 @@ def kang_sticker(client,message):
                 case options.SET_PUBLISHED:
                     message.reply_text(f"kanged [HERE](https://t.me/addstickers/{pack_name})",quote=True)
                     os.remove(file_path)
+                    client.remove_handler(*kang_handler) # remove handler after job is done
+                    finished = True
+                case Er.E1 | Er.E2 | Er.E3 | Er.E4 | Er.E5 | Er.E6 | Er.E7 | Er.E8 | Er.E9 :
+                    message.reply_text("Error occurred, check bot chat.")
                     client.remove_handler(*kang_handler) # remove handler after job is done
                     finished = True
 
