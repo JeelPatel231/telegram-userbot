@@ -1,5 +1,5 @@
 from threading import Thread
-from pyrogram import Client
+from pyrogram import Client, filters
 from dotenv import dotenv_values
 import os
 import logging
@@ -9,12 +9,21 @@ config = {
     **os.environ,  # override loaded values with environment variables
 }
 
+blacklisted_chats = []
+COMMAND_PREFIX = "."
+
 logging.basicConfig(level=logging.INFO)
 
 def run_threaded(fn):
     def x(*args, **kwargs):
         Thread(target=fn,args=args,kwargs=kwargs).start()
     return x
+
+def on_cmd(data):
+    async def func(flt, _, message):
+        if str(message.chat.id) not in blacklisted_chats and message.text is not None and message.from_user is not None:
+            return message.from_user.is_self and message.text.startswith(f'{COMMAND_PREFIX}{flt.data}')
+    return filters.create(func, data=data)
 
 app = Client(
     name=None,
