@@ -10,7 +10,7 @@ config = {
 }
 
 blacklisted_chats = []
-COMMAND_PREFIX = "."
+COMMAND_PREFIX = config.get("COMMAND_PREFIX",".")
 
 logging.basicConfig(level=logging.INFO)
 
@@ -22,7 +22,7 @@ def run_threaded(fn):
 def on_cmd(data):
     async def func(flt, _, message):
         if str(message.chat.id) not in blacklisted_chats and message.text is not None and message.from_user is not None:
-            return message.from_user.is_self and message.text.startswith(f'{COMMAND_PREFIX}{flt.data}')
+            return message.from_user.is_self and message.text.split()[0] == f'{COMMAND_PREFIX}{flt.data}'
     return filters.create(func, data=data)
 
 app = Client(
