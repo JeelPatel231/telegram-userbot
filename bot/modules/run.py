@@ -3,7 +3,7 @@ from io import StringIO
 import sys
 
 @app.on_message(filters=on_cmd("run"))
-def _(_,message):
+def _(client,message):
     cmd = message.text.split(None,1)[1]
     try:
         sys.stdout = StringIO()
@@ -13,5 +13,12 @@ def _(_,message):
         print(e)
         resp = str(repr(e))
 
-    if resp != "":
-        message.reply_text(resp,quote=True)
+    if resp.__len__() == 0: return
+
+    if resp.__len__() > 1024:
+        with open("pastes/output.txt","w") as file:
+            file.write(resp)
+        message.reply_document("pastes/output.txt",quote=True)
+        return
+
+    message.reply_text(resp,quote=True)
