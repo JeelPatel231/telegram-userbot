@@ -5,3 +5,4 @@ python-dotenv==0.20.0
 speedtest-cli==2.1.3
 TgCrypto==1.2.3
 yt-dlp==2022.7.18
+spotipy==2.20.0
