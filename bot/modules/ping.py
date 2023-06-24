@@ -1,15 +1,22 @@
+from pyrogram.handlers.message_handler import MessageHandler
 from bot import app, on_cmd
 from datetime import datetime
+from bot.UBModule import UBModule
 
-@app.on_message(filters=on_cmd("ping"))
-def _(client,mess):
+
+async def ping_handler(client, mess):
     start = datetime.now()
-    ping_mess = client.send_message("me","ping test")
+    ping_mess = await client.send_message("me", "ping test")
     end = datetime.now()
     duration = (end - start).microseconds / 1000
-    mess.reply_text(f"`Pong!\n{duration}ms`",quote=True)
-    ping_mess.delete()
+    await mess.reply_text(f"`Pong!\n{duration}ms`", quote=True)
+    await ping_mess.delete()
 
-@app.on_message(filters=on_cmd("help ping"))
-def _(_,m):
-    m.reply_text("`pingtest to nearest TG DC`", quote=True)
+
+app.register_module(
+    UBModule(
+        name="ping",
+        help_text="ping help text",
+        handler=MessageHandler(ping_handler, on_cmd("ping")),
+    )
+)
